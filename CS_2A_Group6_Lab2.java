@@ -101,44 +101,6 @@ public class CS_2A_Group6_Lab2{
                 pressAnyKey(sc);
                 clearScreen();
 
-            }else if (menuChoice == 3){
-                clearScreen();
-                if(count == 0){
-                    System.out.println("Array is empty. Nothing to search.");
-                }else{
-                    System.out.print("Enter search key: ");
-                    int searchKey = checkInteger(sc);
-                    int index = searchElement(arr, count, searchKey);
-
-                    if(index == -1){
-                        System.out.println(searchKey + " not found in the array.");
-                    }else{
-                        System.out.println(searchKey + " found at index " + index + ".");
-                    }
-                }
-
-                pressAnyKey(sc);
-                clearScreen();
-
-            }else if (menuChoice == 4){
-                clearScreen();
-                if(count == 0){
-                    System.out.println("Array is empty. No elements to display.");
-                }else{
-                    for(int i = 0; i < count; i++){
-                        System.out.printf("%5d", arr[i]);
-                        if((i + 1) % 5 == 0){
-                            System.out.println();
-                        }
-                    }
-                    if(count % 5 != 0){
-                        System.out.println();
-                    }
-                }
-
-                pressAnyKey(sc);
-                clearScreen();
-
             }else if (menuChoice == 5){
                 clearScreen();
                 if(count == 0){
