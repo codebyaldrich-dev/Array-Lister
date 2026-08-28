@@ -38,7 +38,7 @@ public class CS_2A_Group6_Lab2{
             if(menuChoice == 1){
                 clearScreen();
                 if(arr!= null){
-                    System.out.println("Array already exists");
+                    System.out.println("Array already exists.");
                     pressAnyKey(sc);
                     clearScreen();
                 }else{
@@ -50,6 +50,7 @@ public class CS_2A_Group6_Lab2{
 
                     if(arraySize <5 || arraySize >20 ){
                         System.out.println("Array Size must be between 5 and 20.");
+                        System.out.println();
                         continue;
                     }else{
                         arr = new int[arraySize];
@@ -95,12 +96,41 @@ public class CS_2A_Group6_Lab2{
 
                     System.out.println(elementValue + " has been added.");
                     }
+                    if(count == arr.length){
+                        System.out.println();
+                        System.out.println("Array is now full.");
+                    }
                 }
 
 
                 pressAnyKey(sc);
                 clearScreen();
-
+            }else if (menuChoice == 3){
+                clearScreen();
+                if(count == 0){
+                    System.out.println("Array is empty. Nothing to search.");
+                }else{
+                    System.out.print("Enter search key: ");
+                    int searchKey = checkInteger(sc);
+                    int index = searchElement(arr, count, searchKey);
+                    
+                    if(index == -1){
+                        System.out.println(searchKey + " not found in the array.");
+                    }else{
+                        System.out.println(searchKey + " found at index " + index + " . ");
+                    }
+                }
+                
+                System.out.println();
+                pressAnyKey(sc);
+                clearScreen();
+            }else if(menuChoice == 4){
+                clearScreen();
+                displayArray(arr, count);
+                System.out.println();
+                pressAnyKey(sc);
+                clearScreen();
+            
             }else if (menuChoice == 5){
                 clearScreen();
                 if(count == 0){
@@ -117,9 +147,12 @@ public class CS_2A_Group6_Lab2{
                         System.out.println(deleteValue + " has been deleted.");
                     }
                 }
-
+                
+                System.out.println();
                 pressAnyKey(sc);
                 clearScreen();
+                
+
 
             }else if (menuChoice == 0){
                 clearScreen();
@@ -133,14 +166,27 @@ public class CS_2A_Group6_Lab2{
 
     //Show Menu
     public static void Menu(){
-        System.out.println("Array Operations \n     Menu");
+        String border = "------------------------------------";
+        System.out.println(border);
+        System.out.println(centerText("Array Operations", border.length()));
+        System.out.println(centerText("Menu", border.length()));
+        System.out.print(border);
+        System.out.println();
         System.out.println("\n1. Create Array");
         System.out.println("2. Insert Elements");
         System.out.println("3. Search");
         System.out.println("4. Display");
         System.out.println("5. Delete");
         System.out.println("0. Stop");
+        System.out.println();
+        System.out.print(border);
+        System.out.println();
         System.out.print("Enter Choice: ");
+    }
+    public static String centerText(String text, int width){
+        int padding = (width - text.length()) / 2;
+        if(padding <= 0) return text;
+        return " ".repeat(padding) + text;
     }
 
     //Clears screen after transaction
@@ -186,7 +232,23 @@ public class CS_2A_Group6_Lab2{
         }
         return -1;
     }
-
+    
+    //Displays all elements in the array, 5 per line, right-justified
+    public static void displayArray(int[] arr, int count){
+        if(count == 0){
+            System.out.println("Array is empty. Nothing to display.");
+            return;
+        }
+        
+        for(int i = 0; i < count; i++){
+            System.out.printf("%5d", arr[i]);
+            
+            if((i + 1) % 5 == 0 || i == count - 1){
+                System.out.println();
+            }
+        }
+    }
+    
     //Shifts elements left to remove the element at the given index
     public static int deleteElement(int[] arr, int count, int index){
         for(int i = index; i < count - 1; i++){
