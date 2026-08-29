@@ -8,14 +8,15 @@
 */
 import java.util.Scanner;
 
-public class CS_2A_Group6_Lab2{
+public class CS2A_Group6_Lab2{
+
     public static void main(String [] args){
         Scanner sc = new Scanner(System.in);
         int[] arr = null;
         int count = 0;
 
         while(true){
-            Menu();
+            Menu(arr, count);
 
             int menuChoice = checkInteger(sc);
 
@@ -54,6 +55,7 @@ public class CS_2A_Group6_Lab2{
                         continue;
                     }else{
                         arr = new int[arraySize];
+                        System.out.println("Array of size " + arraySize + " created successfully.");
                         pressAnyKey(sc);
                         clearScreen();
                         break;
@@ -117,7 +119,7 @@ public class CS_2A_Group6_Lab2{
                     if(index == -1){
                         System.out.println(searchKey + " not found in the array.");
                     }else{
-                        System.out.println(searchKey + " found at index " + index + " . ");
+                        System.out.println(searchKey + " found at index " + index + ".");
                     }
                 }
                 
@@ -165,7 +167,7 @@ public class CS_2A_Group6_Lab2{
     }
 
     //Show Menu
-    public static void Menu(){
+    public static void Menu(int[] arr, int count){
         String border = "------------------------------------";
         System.out.println(border);
         System.out.println(centerText("Array Operations", border.length()));
@@ -181,6 +183,9 @@ public class CS_2A_Group6_Lab2{
         System.out.println();
         System.out.print(border);
         System.out.println();
+        if(arr != null){
+            System.out.println("Array Status: " + count + "/" + arr.length + " filled");
+        }
         System.out.print("Enter Choice: ");
     }
     public static String centerText(String text, int width){
