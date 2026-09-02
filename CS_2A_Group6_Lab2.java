@@ -1,14 +1,14 @@
 /*
     Group 6
-    Authors: Soriano, Kristina Cassandra (Leader)
-             Condes, Hope Gian           (Member1)
-             Ramos, Aldrich Andrei C.    (Member2)
+    Authors: Ramos, Aldrich              (Leader)
+            Condes, Hope Gian           (Member1)
+            Soriano, Kristina Cassandra (Member2)
     Laboratory Exercise 2
     Date: 8/27/2026
 */
 import java.util.Scanner;
 
-public class CS2A_Group6_Lab2{
+public class CS_2A_Group6_Lab2{
 
     public static void main(String [] args){
         Scanner sc = new Scanner(System.in);
@@ -34,127 +34,135 @@ public class CS2A_Group6_Lab2{
                 pressAnyKey(sc);
                 clearScreen();
                 continue;
-            }
+                }
 
             if(menuChoice == 1){
                 clearScreen();
-
-                if(arr != null){
+                if(arr!= null){
                     System.out.println("Array already exists.");
                     pressAnyKey(sc);
                     clearScreen();
-
                 }else{
                     clearScreen();
+                    System.out.println("══════════════════════════════════");
+                    System.out.println("               CREATE");
+                    System.out.println("══════════════════════════════════");
+                while(true){
+                    System.out.print("Enter array size (5-20): ");
 
-                    while(true){
-                        System.out.print("Enter array size (5-20): ");
+                    int arraySize = checkInteger(sc);
 
-                        int arraySize = checkInteger(sc);
-
-                        if(arraySize <5 || arraySize >20 ){
-                            System.out.println("Array Size must be between 5 and 20.");
-                            System.out.println();
-                            continue;
-
-                        }else{
-                            arr = new int[arraySize];
-                            System.out.println("Array of size " + arraySize + " created successfully.");
-                            pressAnyKey(sc);
-                            clearScreen();
-                            break;
-                        }
+                    if(arraySize <5 || arraySize >20 ){
+                        System.out.println("Array Size must be between 5 and 20.");
+                        System.out.println();
+                        continue;
+                    }else{
+                        arr = new int[arraySize];
+                        System.out.println("Array of size " + arraySize + " created successfully.");
+                        pressAnyKey(sc);
+                        clearScreen();
+                        break;
                     }
                 }
+            }
+
 
             }else if (menuChoice == 2){
                 clearScreen();
-
                 if(count == arr.length){
                     System.out.println("Array is already full.");
-
-                }else{
+                }
+                else{
+                    System.out.println("═════════════════════════════════════════════");
+                    System.out.println("                   INSERT");
+                    System.out.println("═════════════════════════════════════════════");
                     while(count < arr.length){
-                        System.out.print("Enter integer values to insert: ");
-                        int elementValue = checkInteger(sc);
+                    System.out.print("Enter integer values to insert (-99 to stop): ");
+                    int elementValue = checkInteger(sc);
 
-                        //Sentinel
-                        if(elementValue == -99){
-                            break;
-                        }
-
-                        boolean duplicate = false;
-
-                        for (int i = 0; i < count; i++){
-                            if(arr[i] == elementValue){
-                                duplicate = true;
-                                break;
-                            }
-                        }
-
-                        if (duplicate){
-                            System.out.println("Value already exists in the array.");
-                            continue;
-                        }
-
-                        arr[count] = elementValue;
-                        count++;
-
-                        System.out.println(elementValue + " has been added.");
+                    //Sentinel
+                    if(elementValue == -99){
+                        break;
                     }
 
+                    boolean duplicate = false;
+
+                    for (int i = 0; i < count; i++){
+                        if(arr[i] == elementValue){
+                            duplicate = true;
+                        break;
+                        }
+                    }
+
+                    if (duplicate){
+                        System.out.println("[" + elementValue + "]" + " Value already exists in the array.\n");
+                        continue;
+                    }
+
+                    arr[count] = elementValue;
+                    count++;
+
+                    System.out.println(elementValue + " has been added.");
+                    System.out.println("Array Status: "+count + "/" + arr.length + " filled\n");
+                    }
                     if(count == arr.length){
-                        System.out.println();
                         System.out.println("Array is now full.");
                     }
                 }
+
 
                 pressAnyKey(sc);
                 clearScreen();
 
             }else if (menuChoice == 3){
                 clearScreen();
-
                 if(count == 0){
                     System.out.println("Array is empty. Nothing to search.");
-
                 }else{
+                    System.out.println("═══════════════════════════");
+                    System.out.println("           SEARCH");
+                    System.out.println("═══════════════════════════");
                     System.out.print("Enter search key: ");
                     int searchKey = checkInteger(sc);
                     int index = searchElement(arr, count, searchKey);
+                    clearScreen();
 
-                    if(index == -1){
-                        System.out.println(searchKey + " not found in the array.");
-                    }else{
-                        System.out.println(searchKey + " found at index " + index + ".");
-                    }
+                    displaySearchResult(arr, count, searchKey, index);
                 }
-
+                
                 System.out.println();
                 pressAnyKey(sc);
                 clearScreen();
 
             }else if(menuChoice == 4){
                 clearScreen();
+                String border = makeBorder(count, '═');
+                String title = "DISPLAY";
+                int padding = (border.length() - title.length()) / 2;
+                String centeredTitle = " ".repeat(Math.max(0, padding)) + title;
+                
+                System.out.println(border);
+                System.out.println(centeredTitle);
+                System.out.println(border);
+
                 displayArray(arr, count);
                 System.out.println();
                 pressAnyKey(sc);
                 clearScreen();
-
+            
             }else if (menuChoice == 5){
                 clearScreen();
-
                 if(count == 0){
                     System.out.println("Array is empty. Nothing to delete.");
-
                 }else{
-                    System.out.println("Enter -99 to exit the delete option.");
-
-                    while(true){
-                        System.out.print("Enter value to delete: ");
+                    System.out.println("════════════════════════════════");
+                    System.out.println("             DELETE");
+                    System.out.println("════════════════════════════════");
+                    while(count > 0){
+                        System.out.print("Enter value to delete (-99 to stop): ");
                         int deleteValue = checkInteger(sc);
 
-                        // Sentinel value to exit delete option
+                        //Sentinel - lets the user back out of the delete option
                         if(deleteValue == -99){
                             break;
                         }
@@ -162,79 +170,75 @@ public class CS2A_Group6_Lab2{
                         int index = searchElement(arr, count, deleteValue);
 
                         if(index == -1){
-                            System.out.println(deleteValue + " not found in the array.");
-
+                            System.out.println(deleteValue + " not found in the array.\n");
+                            continue;
                         }else{
                             count = deleteElement(arr, count, index);
-                            System.out.println(deleteValue + " has been deleted.");
-
-                            // Stop automatically if all elements are deleted
-                            if(count == 0){
-                                System.out.println("Array is now empty.");
-                                break;
-                            }
+                            System.out.println(deleteValue + " has been deleted successfully.");
+                            System.out.println("Array Status: "+count + "/" + arr.length + " filled\n");
                         }
                     }
+                    if(count == 0){
+                        System.out.println("Array is now empty.");
+                    }
                 }
-
+                
                 System.out.println();
                 pressAnyKey(sc);
                 clearScreen();
+                
+
 
             }else if (menuChoice == 0){
                 clearScreen();
-                System.out.println("Program has been terminated.");
-                pressAnyKey(sc);
+                System.out.println("════════════════════════════════════════");
+                System.out.println("           PROGRAM TERMINATED");
+                System.out.println("════════════════════════════════════════");
+                System.out.println("\nThank you for using the ArrayLister!");
                 sc.close();
                 return;
             }
         }
     }
+    
 
     //Show Menu
     public static void Menu(int[] arr, int count){
-        String border = "------------------------------------";
-
+        String border = "════════════════════════════════════";
         System.out.println(border);
         System.out.println(centerText("Array Operations", border.length()));
         System.out.println(centerText("Menu", border.length()));
         System.out.print(border);
         System.out.println();
-
-        System.out.println("\n1. Create Array");
-        System.out.println("2. Insert Elements");
-        System.out.println("3. Search");
-        System.out.println("4. Display");
-        System.out.println("5. Delete");
-        System.out.println("0. Stop");
+        System.out.println("\n[1]. Create Array");
+        System.out.println("[2]. Insert Elements");
+        System.out.println("[3]. Search");
+        System.out.println("[4]. Display");
+        System.out.println("[5]. Delete");
+        System.out.println("[0]. Stop");
         System.out.println();
-
         System.out.print(border);
         System.out.println();
 
         if(arr != null){
             System.out.println("Array Status: " + count + "/" + arr.length + " filled");
+        }else{
+            System.out.println("Array Status: NOT CREATED");
         }
 
         System.out.print("Enter Choice: ");
     }
-
     public static String centerText(String text, int width){
         int padding = (width - text.length()) / 2;
-
-        if(padding <= 0){
-            return text;
-        }
-
+        if(padding <= 0) return text;
         return " ".repeat(padding) + text;
     }
 
     //Clears screen after transaction
-    public static void clearScreen(){
+    public static void clearScreen() {
         try{
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-
-        }catch (Exception e){
+        }catch (Exception e) {
             System.out.println("Unable to clear screen.");
         }
     }
@@ -250,20 +254,19 @@ public class CS2A_Group6_Lab2{
             String input = sc.nextLine().trim();
 
             if(input.isEmpty()){
-                System.out.println("Input cannot be empty.");
+                System.out.println("Input cannot be empty.\n");
                 System.out.print("Enter an integer: ");
                 continue;
             }
 
-            try{
-                return Integer.parseInt(input);
-
-            }catch(NumberFormatException e){
-                System.out.println("Please enter a valid integer.");
-                System.out.print("Enter an integer: ");
-            }
-        }
+        try{
+            return Integer.parseInt(input);
+        }catch(NumberFormatException e){
+            System.out.println("Please enter a valid integer.\n");
+            System.out.print("Enter an integer: ");
     }
+}
+}
 
     //Finds the index of a value in the array, returns -1 if not found
     public static int searchElement(int[] arr, int count, int value){
@@ -272,35 +275,88 @@ public class CS2A_Group6_Lab2{
                 return i;
             }
         }
-
         return -1;
     }
-
+    
     //Displays all elements in the array, 5 per line, right-justified
     public static void displayArray(int[] arr, int count){
         if(count == 0){
             System.out.println("Array is empty. Nothing to display.");
             return;
         }
-
-        for(int i = 0; i < count; i++){
-            System.out.printf("%5d", arr[i]);
-
-            if((i + 1) % 5 == 0 || i == count - 1){
-                System.out.println();
-            }
+    
+        System.out.print("Index : ");
+        for (int i = 0; i < count; i++) {
+            System.out.printf("%12d", i);
         }
-    }
+        
+        System.out.println();
+        System.out.print("Value : ");
+        for (int i = 0; i < count; i++) {
+            System.out.printf("%12d", arr[i]);
+        }
+        System.out.println();
+        System.out.println(); 
+        System.out.println(makeBorder(count, '═'));
 
+    }
+    
+    //Matches the length of the border to the length of the values
+    public static String makeBorder(int count, char borderChar){
+        int dividerLength = 9 + (count * 12);
+        StringBuilder divider = new StringBuilder();
+        for (int i = 0; i < dividerLength; i++) {
+            divider.append(borderChar);
+        }
+        
+        return divider.toString();
+    }
+    
     //Shifts elements left to remove the element at the given index
     public static int deleteElement(int[] arr, int count, int index){
         for(int i = index; i < count - 1; i++){
             arr[i] = arr[i + 1];
         }
-
         arr[count - 1] = 0;
-
         return count - 1;
     }
-}
+    
+    public static void displaySearchResult(int[] arr, int count, int searchKey, int index){
+        String doubleBorder = makeBorder(count, '═'); 
+        String singleBorder = makeBorder(count, '─');
+        
+        System.out.println();
+        System.out.println(doubleBorder);
+        System.out.println(centerText("SEARCH RESULT", doubleBorder.length()));
+        System.out.println(doubleBorder);
+        System.out.println();
+    
+        if (index != -1) {
+            System.out.printf("Search Key : %d%n", searchKey);
+            System.out.println("Status     : ✓ FOUND");
+            System.out.printf("Index      : %d%n", index);
+            System.out.printf("Value      : %d%n", arr[index]);
+        }else{
+            System.out.printf("Search Key : %d%n", searchKey);
+            System.out.println("Status     : ✗ NOT FOUND");
+        }
+        
+        System.out.println(singleBorder);
+        System.out.println(centerText("ARRAY", singleBorder.length()));
+        System.out.println(singleBorder);
 
+        System.out.print("Index : ");
+        for (int i = 0; i < count; i++) {
+            System.out.printf("%12d", i);
+        }
+
+        System.out.println();
+        System.out.print("Value : ");
+        for (int i = 0; i < count; i++) {
+            System.out.printf("%12d", arr[i]);
+        }
+        System.out.println();
+        System.out.println();
+        System.out.println(doubleBorder);
+        }
+}
