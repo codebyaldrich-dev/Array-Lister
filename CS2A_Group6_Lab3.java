@@ -91,7 +91,10 @@ public class CS2A_Group6_Lab3{
                 System.out.println("Original Array:");
                 displayArray(workingArr);
 
-                // selectionSort(workingArr);
+                System.out.println();
+                System.out.println("Sorting Process:");
+
+                selectionSort(workingArr);
 
                 System.out.println();
                 System.out.println("Sorted Array:");
@@ -287,6 +290,39 @@ public class CS2A_Group6_Lab3{
 
     System.out.println(" ]");
     }
+
+    //Selection Sort
+    public static void selectionSort(int[] arr){
+
+    for(int i = 0; i < arr.length - 1; i++){
+
+        int minIndex = i;
+
+        for(int j = i + 1; j < arr.length; j++){
+            if(arr[j] < arr[minIndex]){
+                minIndex = j;
+            }
+        }
+
+        // Swap the found minimum element with the first element
+        int temp = arr[minIndex];
+        arr[minIndex] = arr[i];
+        arr[i] = temp;
+
+        // Display array after each pass
+        System.out.print("Pass " + (i + 1) + ": [ ");
+
+        for(int k = 0; k < arr.length; k++){
+            System.out.print(arr[k]);
+
+            if(k < arr.length - 1){
+                System.out.print(" | ");
+            }
+        }
+
+        System.out.println(" ]");
+    }
+}
 
     //Insertion Sort
     public static void insertionSort(int[] arr){
