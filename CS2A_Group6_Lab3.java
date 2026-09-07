@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class CS2A_Group6_Lab3{
@@ -29,7 +30,7 @@ public class CS2A_Group6_Lab3{
         int[] arr = new int[arraySize];
 
         clearScreen();
-        mainMenu();
+        secMenu();
 
         System.out.println("Enter " + arraySize + " Array Elements:");
 
@@ -65,7 +66,10 @@ public class CS2A_Group6_Lab3{
                 System.out.println("Original Array:");
                 displayArray(workingArr);
 
-                // bubbleSort(workingArr);
+                System.out.println();
+                System.out.println("Sorting Process:");
+                
+                bubbleSort(workingArr);
 
                 System.out.println();
                 System.out.println("Sorted Array:");
@@ -208,6 +212,22 @@ public class CS2A_Group6_Lab3{
         System.out.print(border);
         System.out.println();
     }
+    public static void secMenu(){
+
+        String border = "════════════════════════════════════";
+
+        System.out.println(border);
+        System.out.println(centerText("The Sorting Algorithm", border.length()));
+        System.out.print(border);
+        System.out.println();
+
+        System.out.println(centerText("Welcome to our Sorting Algorithm!", border.length()));
+        System.out.println(centerText("Please enter array elements.", border.length()));
+        
+        System.out.println();
+        System.out.print(border);
+        System.out.println();
+    }
 
     public static void sortingMenu(){
 
@@ -290,14 +310,50 @@ public class CS2A_Group6_Lab3{
 
     System.out.println(" ]");
     }
-
+    
+    public static void bubbleSort(int[] arr){
+        
+        int n = arr.length;
+        
+        for(int i = 0; i < n - 1; i++){
+            
+            boolean swapped = false;
+            
+            for(int j = 0; j < n - 1 - i; j++){
+                if(arr[j] > arr[j + 1]){
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                    swapped = true;
+                }
+            }
+            
+            // Display array after each pass
+            System.out.print("Pass " + (i + 1) + ": [ ");
+            
+            for(int k = 0; k < arr.length; k++){
+                System.out.print(arr[k]);
+                
+                if(k < arr.length - 1){
+                    System.out.print(" | ");
+                }
+            }
+            
+            System.out.println(" ]");
+            
+            if(isSorted(arr)){
+                break;
+            }
+        }
+    }
+    
     //Selection Sort
     public static void selectionSort(int[] arr){
 
     for(int i = 0; i < arr.length - 1; i++){
 
         int minIndex = i;
-
+        
         for(int j = i + 1; j < arr.length; j++){
             if(arr[j] < arr[minIndex]){
                 minIndex = j;
@@ -305,10 +361,13 @@ public class CS2A_Group6_Lab3{
         }
 
         // Swap the found minimum element with the first element
-        int temp = arr[minIndex];
-        arr[minIndex] = arr[i];
-        arr[i] = temp;
-
+        if (minIndex != i){
+            int temp = arr[minIndex];
+            arr[minIndex] = arr[i];
+            arr[i] = temp;
+            
+        }
+        
         // Display array after each pass
         System.out.print("Pass " + (i + 1) + ": [ ");
 
@@ -321,26 +380,33 @@ public class CS2A_Group6_Lab3{
         }
 
         System.out.println(" ]");
-    }
+        
+        if(isSorted(arr)){
+            break;
+        }
+}
 }
 
     //Insertion Sort
     public static void insertionSort(int[] arr){
-
+    int passCount = 1;
+    
     for(int i = 1; i < arr.length; i++){
 
         int key = arr[i];
         int j = i - 1;
-
+        boolean shifted = false;
+        
         while(j >= 0 && arr[j] > key){
             arr[j + 1] = arr[j];
             j--;
+            shifted = true;
         }
 
         arr[j + 1] = key;
 
         // Display array after each pass
-        System.out.print("Pass " + i + ": [ ");
+        System.out.print("Pass " + passCount + ": [ ");
 
         for(int k = 0; k < arr.length; k++){
             System.out.print(arr[k]);
@@ -351,8 +417,24 @@ public class CS2A_Group6_Lab3{
         }
 
         System.out.println(" ]");
+        
+        passCount++;
+        
+        if(isSorted(arr)){
+            break;
+        }
     }
 }
+
+    public static boolean isSorted(int[] arr){
+        for(int i = 0; i < arr.length - 1; i++){
+            if(arr[i] > arr[i + 1]){
+                return false;
+            }
+        }
+        return true;
+    }
+    
  public static void pressAnyKey(Scanner sc){
         System.out.print("Press Enter to continue... ");
         sc.nextLine();
