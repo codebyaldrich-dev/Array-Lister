@@ -1,3 +1,12 @@
+/*
+    Group 6
+    Authors: Ramos, Aldrich              (Leader)
+            Condes, Hope Gian           (Member1)
+            Soriano, Kristina Cassandra (Member2)
+    Laboratory Exercise 2
+    Date: 9/1/2026
+*/
+
 import java.util.Scanner;
 
 public class CS2A_Group6_Lab3 {
@@ -33,9 +42,27 @@ public class CS2A_Group6_Lab3 {
 
             System.out.println("Enter " + arraySize + " Array Elements:");
 
-            for (int i = 0; i < arraySize; i++) {
+            int i = 0;
+
+            while (i < arraySize) {
+            
                 System.out.print("[" + (i + 1) + "] → : ");
-                arr[i] = checkInteger(sc);
+            
+                String input = sc.nextLine().trim();
+            
+                if (input.isEmpty()) {
+                    System.out.println("Input cannot be empty. Please try again.\n");
+                    continue;
+                }
+            
+                try {
+                    arr[i] = Integer.parseInt(input);
+                    i++;  // Only move to the next index if input is valid
+                }
+            
+                catch (NumberFormatException e) {
+                    System.out.println("Please enter a valid integer. Try again.\n");
+                }
             }
 
             // Save the original array
@@ -183,7 +210,7 @@ public class CS2A_Group6_Lab3 {
 
                 else {
 
-                    System.out.println("Invalid sorting choice.");
+                    System.out.println("Invalid sorting choice.\n");
                     pressAnyKey(sc);
                 }
             }
@@ -277,29 +304,25 @@ public class CS2A_Group6_Lab3 {
     // Checks for empty and invalid integer inputs
     public static int checkInteger(Scanner sc) {
 
-        while (true) {
+    while (true) {
 
-            String input = sc.nextLine().trim();
+        String input = sc.nextLine().trim();
 
-            if (input.isEmpty()) {
+        if (input.isEmpty()) {
+            System.out.println("Input cannot be empty.");
+            return -1;
+        }
 
-                System.out.println("Input cannot be empty.\n");
-                System.out.print("Enter an integer: ");
-                continue;
-            }
+        try {
+            return Integer.parseInt(input);
+        }
 
-            try {
-
-                return Integer.parseInt(input);
-            }
-
-            catch (NumberFormatException e) {
-
-                System.out.println("Please enter a valid integer.\n");
-                System.out.print("Enter an integer: ");
-            }
+        catch (NumberFormatException e) {
+            System.out.println("Please enter a valid integer.");
+            return -1;
         }
     }
+}
 
 
     // Clears the console screen
@@ -346,90 +369,126 @@ public class CS2A_Group6_Lab3 {
     }
 
 
+    // Checks if the array is already sorted
+    public static boolean isSorted(int[] arr) {
+    
+        for (int i = 0; i < arr.length - 1; i++) {
+    
+            if (arr[i] > arr[i + 1]) {
+                return false;
+            }
+        }
+    
+        return true;
+    }
+    
+    
     // Bubble Sort
     public static void bubbleSort(int[] arr) {
-
+    
         int n = arr.length;
-
+    
+        // If already sorted, do not perform/display a pass
+        if (isSorted(arr)) {
+            System.out.println("Array is already sorted. No passes needed.");
+            return;
+        }
+    
         for (int i = 0; i < n - 1; i++) {
-
+    
             boolean swapped = false;
-
+    
             for (int j = 0; j < n - 1 - i; j++) {
-
+    
                 if (arr[j] > arr[j + 1]) {
-
+    
                     int temp = arr[j];
                     arr[j] = arr[j + 1];
                     arr[j + 1] = temp;
-
+    
                     swapped = true;
                 }
             }
-
-            // Display array after each pass
-            displayPass(arr, i + 1);
-
-            // If no elements were swapped,
-            // the array is already sorted.
+    
+            // If no swaps happened, array is sorted
             if (!swapped) {
                 break;
             }
+    
+            // Display array after each actual pass
+            displayPass(arr, i + 1);
         }
     }
-
-
+    
+    
     // Selection Sort
     public static void selectionSort(int[] arr) {
-
+    
+        // If already sorted, do not perform/display a pass
+        if (isSorted(arr)) {
+            System.out.println("Array is already sorted. No passes needed.");
+            return;
+        }
+    
         for (int i = 0; i < arr.length - 1; i++) {
-
+    
             int minIndex = i;
-
+    
             for (int j = i + 1; j < arr.length; j++) {
-
+    
                 if (arr[j] < arr[minIndex]) {
                     minIndex = j;
                 }
             }
-
-            // Swap the minimum element
-            // with the first unsorted element
+    
+            // Only count/display a pass if an actual swap occurs
             if (minIndex != i) {
-
+    
                 int temp = arr[minIndex];
                 arr[minIndex] = arr[i];
                 arr[i] = temp;
+    
+                displayPass(arr, i + 1);
             }
-
-            // Display array after each pass
-            displayPass(arr, i + 1);
         }
     }
-
-
+    
+    
     // Insertion Sort
     public static void insertionSort(int[] arr) {
-
+    
+        // If already sorted, do not perform/display a pass
+        if (isSorted(arr)) {
+            System.out.println("Array is already sorted. No passes needed.");
+            return;
+        }
+    
+        int pass = 0;
+    
         for (int i = 1; i < arr.length; i++) {
-
+    
             int key = arr[i];
             int j = i - 1;
-
+    
+            boolean moved = false;
+    
             while (j >= 0 && arr[j] > key) {
-
+    
                 arr[j + 1] = arr[j];
                 j--;
+                moved = true;
             }
-
+    
             arr[j + 1] = key;
-
-            // Display array after each pass
-            displayPass(arr, i);
+    
+            // Only display a pass if the array actually changed
+            if (moved) {
+                pass++;
+                displayPass(arr, pass);
+            }
         }
     }
-
-
+    
     // Waits for the user to press Enter
     public static void pressAnyKey(Scanner sc) {
 
