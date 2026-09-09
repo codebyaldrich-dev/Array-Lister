@@ -1,241 +1,252 @@
-
 import java.util.Scanner;
 
-public class CS2A_Group6_Lab3{
+public class CS2A_Group6_Lab3 {
 
-    public static void main(String [] args){
+    public static void main(String[] args) {
 
-    Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-    while(true){
+        while (true) {
 
-        int arraySize;
+            int arraySize;
 
-        mainMenu();
+            mainMenu();
 
-        while(true){
+            // Get array size
+            while (true) {
 
-            System.out.print("Enter Array Size: ");
+                System.out.print("Enter Array Size: ");
+                arraySize = checkInteger(sc);
 
-            arraySize = checkInteger(sc);
-
-            if(arraySize < 5 || arraySize > 15){
-                System.out.println("Invalid choice. Please pick from (5-15).");
+                if (arraySize < 5 || arraySize > 15) {
+                    System.out.println("Invalid choice. Please pick from (5-15).\n");
+                }
+                else {
+                    break;
+                }
             }
-            else{
-                break;
-            }
-        }
 
-        int[] arr = new int[arraySize];
-
-        clearScreen();
-        secMenu();
-
-        System.out.println("Enter " + arraySize + " Array Elements:");
-
-        for(int i = 0; i < arraySize; i++){
-            System.out.print("[" + (i + 1) + "] → : ");
-            arr[i] = checkInteger(sc);
-        }
-
-        // Save the original array
-        int[] originalArr = arr.clone();
-
-        while(true){
+            int[] arr = new int[arraySize];
 
             clearScreen();
-            sortingMenu();
+            secMenu();
 
-            System.out.print("Enter your choice: ");
-            int choice = checkInteger(sc);
+            System.out.println("Enter " + arraySize + " Array Elements:");
 
+            for (int i = 0; i < arraySize; i++) {
+                System.out.print("[" + (i + 1) + "] → : ");
+                arr[i] = checkInteger(sc);
+            }
 
-            if(choice == 1){
+            // Save the original array
+            int[] originalArr = arr.clone();
+
+            while (true) {
+
+                clearScreen();
+                sortingMenu();
+
+                System.out.print("Enter your choice: ");
+                int choice = checkInteger(sc);
 
                 // Bubble Sort
-                int[] workingArr = originalArr.clone();
+                if (choice == 1) {
 
-                clearScreen();
+                    int[] workingArr = originalArr.clone();
 
-                System.out.println("════════════════════════════════════");
-                System.out.println(centerText("Bubble Sort", 36));
-                System.out.println("════════════════════════════════════");
-                System.out.println();
+                    clearScreen();
 
-                System.out.println("Original Array:");
-                displayArray(workingArr);
+                    System.out.println("════════════════════════════════════");
+                    System.out.println(centerText("Bubble Sort", 36));
+                    System.out.println("════════════════════════════════════");
+                    System.out.println();
 
-                System.out.println();
-                System.out.println("Sorting Process:");
-                
-                bubbleSort(workingArr);
+                    System.out.println("Original Array:");
+                    displayArray(workingArr);
 
-                System.out.println();
-                System.out.println("Sorted Array:");
-                displayArray(workingArr);
+                    System.out.println();
+                    System.out.println("Sorting Process:");
 
-                pressAnyKey(sc);
+                    bubbleSort(workingArr);
 
-            }
+                    System.out.println();
+                    System.out.println("Sorted Array:");
+                    displayArray(workingArr);
 
-
-            else if(choice == 2){
+                    pressAnyKey(sc);
+                }
 
                 // Selection Sort
-                int[] workingArr = originalArr.clone();
+                else if (choice == 2) {
 
-                clearScreen();
+                    int[] workingArr = originalArr.clone();
 
-                System.out.println("════════════════════════════════════");
-                System.out.println(centerText("Selection Sort", 36));
-                System.out.println("════════════════════════════════════");
-                System.out.println();
+                    clearScreen();
 
-                System.out.println("Original Array:");
-                displayArray(workingArr);
+                    System.out.println("════════════════════════════════════");
+                    System.out.println(centerText("Selection Sort", 36));
+                    System.out.println("════════════════════════════════════");
+                    System.out.println();
 
-                System.out.println();
-                System.out.println("Sorting Process:");
+                    System.out.println("Original Array:");
+                    displayArray(workingArr);
 
-                selectionSort(workingArr);
+                    System.out.println();
+                    System.out.println("Sorting Process:");
 
-                System.out.println();
-                System.out.println("Sorted Array:");
-                displayArray(workingArr);
+                    selectionSort(workingArr);
 
-                pressAnyKey(sc);
+                    System.out.println();
+                    System.out.println("Sorted Array:");
+                    displayArray(workingArr);
 
-            }
-
-
-            else if(choice == 3){
+                    pressAnyKey(sc);
+                }
 
                 // Insertion Sort
-                int[] workingArr = originalArr.clone();
+                else if (choice == 3) {
 
-                clearScreen();
+                    int[] workingArr = originalArr.clone();
 
-                System.out.println("════════════════════════════════════");
-                System.out.println(centerText("Insertion Sort", 36));
-                System.out.println("════════════════════════════════════");
-                System.out.println();
+                    clearScreen();
 
-                System.out.println("Original Array:");
-                displayArray(workingArr);
+                    System.out.println("════════════════════════════════════");
+                    System.out.println(centerText("Insertion Sort", 36));
+                    System.out.println("════════════════════════════════════");
+                    System.out.println();
 
-                System.out.println();
-                System.out.println("Sorting Process:");
+                    System.out.println("Original Array:");
+                    displayArray(workingArr);
 
-                insertionSort(workingArr);
+                    System.out.println();
+                    System.out.println("Sorting Process:");
 
-                System.out.println();
-                System.out.println("Sorted Array:");
-                displayArray(workingArr);
+                    insertionSort(workingArr);
 
-                pressAnyKey(sc);
+                    System.out.println();
+                    System.out.println("Sorted Array:");
+                    displayArray(workingArr);
 
-            }
-
-
-            else if(choice == 4){
+                    pressAnyKey(sc);
+                }
 
                 // EXIT
-                clearScreen();
+                else if (choice == 4) {
 
-                System.out.println("════════════════════════════════════");
-                System.out.println(centerText("EXIT", 36));
-                System.out.println("════════════════════════════════════");
-                System.out.println();
-
-                System.out.println(centerText(
-                    "Thank you for using our program!", 36));
-
-                System.out.println();
-                System.out.println(centerText("Would you like to try again?\n", 36));
-                System.out.println("════════════════════════════════════");
-                System.out.println();
-
-                System.out.print("(Y/N): ");
-
-                String again = sc.nextLine().trim();
-
-
-                if(again.equalsIgnoreCase("Y")){
                     clearScreen();
+
+                    System.out.println("════════════════════════════════════");
+                    System.out.println(centerText("EXIT", 36));
+                    System.out.println("════════════════════════════════════");
+                    System.out.println();
+
+                    System.out.println(centerText(
+                        "Thank you for using our program!", 36));
+
+                    System.out.println();
+                    System.out.println(centerText(
+                        "Would you like to try again?", 36));
+
+                    System.out.println();
+                    System.out.println("════════════════════════════════════");
+                    System.out.println();
+
+                    // Validate Y/N input
+                    while (true) {
+
+                        System.out.print("(Y/N): ");
+                        String again = sc.nextLine().trim();
+
+                        if (again.equalsIgnoreCase("Y")) {
+
+                            clearScreen();
+                            break;
+                        }
+
+                        else if (again.equalsIgnoreCase("N")) {
+
+                            System.out.println("\nExiting program...");
+                            sc.close();
+                            return;
+                        }
+
+                        else {
+
+                            System.out.println(
+                                "Invalid choice. Please enter Y or N.\n");
+                        }
+                    }
+
+                    // Return to array-size menu
                     break;
-
-                }
-                else if(again.equalsIgnoreCase("N")){
-
-                    System.out.println("\nExiting program...");
-                    sc.close();
-                    return;
-
-                }
-                else{
-
-                    System.out.println("\nInvalid choice. Exiting program...");
-                    sc.close();
-                    return;
-
                 }
 
-            }
+                else {
 
-
-            else{
-
-                System.out.println("Invalid sorting choice.");
-                pressAnyKey(sc);
-
+                    System.out.println("Invalid sorting choice.");
+                    pressAnyKey(sc);
+                }
             }
         }
-
     }
-}
 
-    public static void mainMenu(){
+
+    // Main Menu
+    public static void mainMenu() {
 
         String border = "════════════════════════════════════";
 
         System.out.println(border);
-        System.out.println(centerText("The Sorting Algorithm", border.length()));
+        System.out.println(centerText(
+            "The Sorting Algorithm", border.length()));
         System.out.print(border);
         System.out.println();
 
-        System.out.println(centerText("Welcome to our Sorting Algorithm!", border.length()));
-        System.out.println(centerText("Please enter an array size", border.length()));
-        System.out.println(centerText("between 5 and 15.", border.length()));
+        System.out.println(centerText(
+            "Welcome to our Sorting Algorithm!", border.length()));
+        System.out.println(centerText(
+            "Please enter an array size", border.length()));
+        System.out.println(centerText(
+            "between 5 and 15.", border.length()));
 
-        System.out.println();
-        System.out.print(border);
-        System.out.println();
-    }
-    public static void secMenu(){
-
-        String border = "════════════════════════════════════";
-
-        System.out.println(border);
-        System.out.println(centerText("The Sorting Algorithm", border.length()));
-        System.out.print(border);
-        System.out.println();
-
-        System.out.println(centerText("Welcome to our Sorting Algorithm!", border.length()));
-        System.out.println(centerText("Please enter array elements.", border.length()));
-        
         System.out.println();
         System.out.print(border);
         System.out.println();
     }
 
-    public static void sortingMenu(){
+
+    // Second Menu
+    public static void secMenu() {
 
         String border = "════════════════════════════════════";
 
         System.out.println(border);
-        System.out.println(centerText("Sorting Algorithms", border.length()));
-        System.out.println(centerText("Menu", border.length()));
+        System.out.println(centerText(
+            "The Sorting Algorithm", border.length()));
+        System.out.print(border);
+        System.out.println();
+
+        System.out.println(centerText(
+            "Welcome to our Sorting Algorithm!", border.length()));
+        System.out.println(centerText(
+            "Please enter array elements.", border.length()));
+
+        System.out.println();
+        System.out.print(border);
+        System.out.println();
+    }
+
+
+    // Sorting Menu
+    public static void sortingMenu() {
+
+        String border = "════════════════════════════════════";
+
+        System.out.println(border);
+        System.out.println(centerText(
+            "Sorting Algorithms", border.length()));
+        System.out.println(centerText(
+            "Menu", border.length()));
         System.out.print(border);
         System.out.println();
 
@@ -249,194 +260,181 @@ public class CS2A_Group6_Lab3{
         System.out.println();
     }
 
-    public static String centerText(String text, int width){
+
+    // Centers text based on the given width
+    public static String centerText(String text, int width) {
 
         int padding = (width - text.length()) / 2;
 
-        if(padding <= 0)
+        if (padding <= 0) {
             return text;
+        }
 
         return " ".repeat(padding) + text;
     }
 
-    // Checks both null and invalid integer inputs
-    public static int checkInteger(Scanner sc){
 
-        while(true){
+    // Checks for empty and invalid integer inputs
+    public static int checkInteger(Scanner sc) {
+
+        while (true) {
 
             String input = sc.nextLine().trim();
 
-            if(input.isEmpty()){
+            if (input.isEmpty()) {
+
                 System.out.println("Input cannot be empty.\n");
                 System.out.print("Enter an integer: ");
                 continue;
             }
 
-            try{
+            try {
+
                 return Integer.parseInt(input);
             }
-            catch(NumberFormatException e){
+
+            catch (NumberFormatException e) {
+
                 System.out.println("Please enter a valid integer.\n");
                 System.out.print("Enter an integer: ");
             }
         }
     }
 
-    public static void clearScreen(){
 
-        try{
+    // Clears the console screen
+    public static void clearScreen() {
+
+        try {
+
             new ProcessBuilder("cmd", "/c", "cls")
                 .inheritIO()
                 .start()
                 .waitFor();
         }
-        catch(Exception e){
+
+        catch (Exception e) {
+
             System.out.println("Unable to clear screen.");
         }
     }
 
-    //Displays Array
-    public static void displayArray(int[] arr){
 
-    System.out.print("Array: [ ");
+    // Displays an array
+    public static void displayArray(int[] arr) {
 
-    for(int i = 0; i < arr.length; i++){
-        System.out.print(arr[i]);
+        System.out.print("Array: [ ");
 
-        if(i < arr.length - 1){
-            System.out.print(" | ");
+        for (int i = 0; i < arr.length; i++) {
+
+            System.out.print(arr[i]);
+
+            if (i < arr.length - 1) {
+                System.out.print(" | ");
+            }
         }
+
+        System.out.println(" ]");
     }
 
-    System.out.println(" ]");
+
+    // Displays a sorting pass
+    public static void displayPass(int[] arr, int pass) {
+
+        System.out.print("Pass " + pass + ": ");
+        displayArray(arr);
     }
-    
-    public static void bubbleSort(int[] arr){
-        
+
+
+    // Bubble Sort
+    public static void bubbleSort(int[] arr) {
+
         int n = arr.length;
-        
-        for(int i = 0; i < n - 1; i++){
-            
+
+        for (int i = 0; i < n - 1; i++) {
+
             boolean swapped = false;
-            
-            for(int j = 0; j < n - 1 - i; j++){
-                if(arr[j] > arr[j + 1]){
+
+            for (int j = 0; j < n - 1 - i; j++) {
+
+                if (arr[j] > arr[j + 1]) {
+
                     int temp = arr[j];
                     arr[j] = arr[j + 1];
                     arr[j + 1] = temp;
+
                     swapped = true;
                 }
             }
-            
+
             // Display array after each pass
-            System.out.print("Pass " + (i + 1) + ": [ ");
-            
-            for(int k = 0; k < arr.length; k++){
-                System.out.print(arr[k]);
-                
-                if(k < arr.length - 1){
-                    System.out.print(" | ");
-                }
-            }
-            
-            System.out.println(" ]");
-            
-            if(isSorted(arr)){
+            displayPass(arr, i + 1);
+
+            // If no elements were swapped,
+            // the array is already sorted.
+            if (!swapped) {
                 break;
             }
         }
     }
-    
-    //Selection Sort
-    public static void selectionSort(int[] arr){
 
-    for(int i = 0; i < arr.length - 1; i++){
 
-        int minIndex = i;
-        
-        for(int j = i + 1; j < arr.length; j++){
-            if(arr[j] < arr[minIndex]){
-                minIndex = j;
+    // Selection Sort
+    public static void selectionSort(int[] arr) {
+
+        for (int i = 0; i < arr.length - 1; i++) {
+
+            int minIndex = i;
+
+            for (int j = i + 1; j < arr.length; j++) {
+
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
             }
-        }
 
-        // Swap the found minimum element with the first element
-        if (minIndex != i){
-            int temp = arr[minIndex];
-            arr[minIndex] = arr[i];
-            arr[i] = temp;
-            
-        }
-        
-        // Display array after each pass
-        System.out.print("Pass " + (i + 1) + ": [ ");
+            // Swap the minimum element
+            // with the first unsorted element
+            if (minIndex != i) {
 
-        for(int k = 0; k < arr.length; k++){
-            System.out.print(arr[k]);
-
-            if(k < arr.length - 1){
-                System.out.print(" | ");
+                int temp = arr[minIndex];
+                arr[minIndex] = arr[i];
+                arr[i] = temp;
             }
-        }
 
-        System.out.println(" ]");
-        
-        if(isSorted(arr)){
-            break;
-        }
-}
-}
-
-    //Insertion Sort
-    public static void insertionSort(int[] arr){
-    int passCount = 1;
-    
-    for(int i = 1; i < arr.length; i++){
-
-        int key = arr[i];
-        int j = i - 1;
-        boolean shifted = false;
-        
-        while(j >= 0 && arr[j] > key){
-            arr[j + 1] = arr[j];
-            j--;
-            shifted = true;
-        }
-
-        arr[j + 1] = key;
-
-        // Display array after each pass
-        System.out.print("Pass " + passCount + ": [ ");
-
-        for(int k = 0; k < arr.length; k++){
-            System.out.print(arr[k]);
-
-            if(k < arr.length - 1){
-                System.out.print(" | ");
-            }
-        }
-
-        System.out.println(" ]");
-        
-        passCount++;
-        
-        if(isSorted(arr)){
-            break;
+            // Display array after each pass
+            displayPass(arr, i + 1);
         }
     }
-}
 
-    public static boolean isSorted(int[] arr){
-        for(int i = 0; i < arr.length - 1; i++){
-            if(arr[i] > arr[i + 1]){
-                return false;
+
+    // Insertion Sort
+    public static void insertionSort(int[] arr) {
+
+        for (int i = 1; i < arr.length; i++) {
+
+            int key = arr[i];
+            int j = i - 1;
+
+            while (j >= 0 && arr[j] > key) {
+
+                arr[j + 1] = arr[j];
+                j--;
             }
+
+            arr[j + 1] = key;
+
+            // Display array after each pass
+            displayPass(arr, i);
         }
-        return true;
     }
-    
- public static void pressAnyKey(Scanner sc){
+
+
+    // Waits for the user to press Enter
+    public static void pressAnyKey(Scanner sc) {
+
         System.out.print("Press Enter to continue... ");
         sc.nextLine();
     }
 }
+
