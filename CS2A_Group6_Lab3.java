@@ -447,9 +447,9 @@ public class CS2A_Group6_Lab3 {
                 int temp = arr[minIndex];
                 arr[minIndex] = arr[i];
                 arr[i] = temp;
-    
-                displayPass(arr, i + 1);
+                
             }
+            displayPass(arr, i + 1);
         }
     }
     
@@ -496,4 +496,3 @@ public class CS2A_Group6_Lab3 {
         sc.nextLine();
     }
 }
-
