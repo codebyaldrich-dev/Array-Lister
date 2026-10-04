@@ -41,7 +41,7 @@ public class CS2A_Group6_Lab4 {
                 infixToPrefixMenu();
 
             } else if (choice == 0) {
-                System.out.println("\nThank you for using our system!!");
+                System.out.println("\nThank you for using our system!");
                 System.out.println("Program terminated.");
                 break;
                 
@@ -80,9 +80,13 @@ public class CS2A_Group6_Lab4 {
 
         while (true) {
 
-            System.out.println();
+            clearScreen();
+            screenHeader("INFIX TO POSTFIX");
+            
+            
+            System.out.println("Enter the Infix Expression : ");
+            
 
-            System.out.print("Enter the Infix Expression : ");
             String expression = sc.nextLine();
 
             try {
@@ -143,6 +147,8 @@ public class CS2A_Group6_Lab4 {
         StringBuilder postfix = new StringBuilder();
 
         boolean expectingOperand = true;
+        boolean isFirst = true;
+        int tokenCount = 0;
 
         for (int i = 0; i < expression.length(); i++) {
 
@@ -153,13 +159,21 @@ public class CS2A_Group6_Lab4 {
                 continue;
             }
 
-            if (Character.isLetterOrDigit(ch)) {
+            if (Character.isLetter(ch)) {
 
                 if (!expectingOperand) {
 
                     throw new IllegalArgumentException(
-                        "Two operands cannot be next to each other."
+                        "Operands may only be preceded by an operator or an open parenthesis."
                     );
+                }
+                
+                if (++tokenCount > 15){
+                
+                    throw new IllegalArgumentException(
+                        "The expression may have a maximum of 15 operators and operands."
+                );
+                    
                 }
 
                 postfix.append(ch);
@@ -170,7 +184,7 @@ public class CS2A_Group6_Lab4 {
                 if (!expectingOperand) {
 
                     throw new IllegalArgumentException(
-                        "Missing operator before '('."
+                        "An open parenthesis may only be preceded by an operator or another open parenthesis."
                     );
                 }
 
@@ -178,10 +192,17 @@ public class CS2A_Group6_Lab4 {
 
             } else if (ch == ')') {
 
+                if (isFirst) {
+
+                    throw new IllegalArgumentException(
+                        "The expression may only begin with an operand or an open parenthesis."
+                    );
+                }
+                
                 if (expectingOperand) {
 
                     throw new IllegalArgumentException(
-                        "Invalid expression near ')'."
+                        "A close parenthesis may only be preceded by an operand or another close parenthesis."
                     );
                 }
 
@@ -194,7 +215,7 @@ public class CS2A_Group6_Lab4 {
                 if (stack.isEmpty()) {
 
                     throw new IllegalArgumentException(
-                        "Mismatched parentheses."
+                        "All close parentheses must have matching open parentheses."
                     );
                 }
 
@@ -202,15 +223,28 @@ public class CS2A_Group6_Lab4 {
                 expectingOperand = false;
 
             } else if (isOperator(ch)) {
+                
+                if (isFirst) {
 
+                    throw new IllegalArgumentException(
+                        "The expression may only begin with an operand or an open parenthesis."
+                    );
+                }
+                
                 if (expectingOperand) {
 
                     throw new IllegalArgumentException(
-                        "Operator '" + ch +
-                        "' is in an invalid position."
+                        "Operators may only be preceded by an operand or a close parenthesis."
                     );
                 }
 
+                if (++tokenCount > 15) {
+
+                    throw new IllegalArgumentException(
+                        "The expression may have a maximum of 15 operators and operands."
+                    );
+                }
+                
                 while (!stack.isEmpty() &&
                        stack.peek() != '(' &&
                        precedence(stack.peek()) >= precedence(ch)) {
@@ -221,18 +255,27 @@ public class CS2A_Group6_Lab4 {
                 stack.push(ch);
                 expectingOperand = true;
 
+            } else if (Character.isDigit(ch)) {
+
+                    throw new IllegalArgumentException(
+                        "Each operand is denoted as a single alphabetic character."
+                );
+            
             } else {
 
                 throw new IllegalArgumentException(
                     "Invalid character '" + ch + "'."
                 );
             }
+            
+            isFirst = false;
         }
 
-        if (expectingOperand) {
+        
+            if (expectingOperand) {
 
             throw new IllegalArgumentException(
-                "Expression cannot end with an operator."
+                "The expression may only end with an operand or a close parenthesis."
             );
         }
 
@@ -241,7 +284,7 @@ public class CS2A_Group6_Lab4 {
             if (stack.peek() == '(') {
 
                 throw new IllegalArgumentException(
-                    "Mismatched parentheses."
+                    "All open parentheses must have matching close parentheses."
                 );
             }
 
@@ -255,8 +298,9 @@ public class CS2A_Group6_Lab4 {
 
         while (true) {
 
-            System.out.println();
-
+            clearScreen();
+            screenHeader("POSTFIX TO INFIX");
+            
             System.out.print("Enter the Postfix Expression : ");
             String expression = sc.nextLine();
 
@@ -312,6 +356,9 @@ public class CS2A_Group6_Lab4 {
         }
 
         Stack<String> stack = new Stack<>();
+        
+        boolean isFirst = true;
+        int tokenCount = 0;
 
         for (int i = 0; i < expression.length(); i++) {
 
@@ -322,40 +369,71 @@ public class CS2A_Group6_Lab4 {
                 continue;
             }
 
-            if (Character.isLetterOrDigit(ch)) {
+            if (Character.isLetter(ch)) {
+                
+                if (++tokenCount > 15) {
+
+                throw new IllegalArgumentException(
+                    "The expression may have a maximum of 15 operators and operands."
+                );
+            }
 
                 stack.push(String.valueOf(ch));
 
-            } else if (isOperator(ch)) {
+             } else if (ch == '(' || ch == ')') {
 
+            throw new IllegalArgumentException(
+                "Parentheses are not valid in a postfix expression."
+            );
+            
+            } else if (isOperator(ch)) {
+                
+                if (isFirst) {
+
+                throw new IllegalArgumentException(
+                    "The expression may only begin with an operand."
+                );
+                }
+
+                if (++tokenCount > 15) {
+
+                throw new IllegalArgumentException(
+                    "The expression may have a maximum of 15 operators and operands."
+                );
+                
+                }
+                
                 if (stack.size() < 2) {
 
                     throw new IllegalArgumentException(
-                        "Not enough operands for operator '"
-                        + ch + "'."
+                        "Operators may only be preceded by two operands."
                     );
                 }
 
                 String operand2 = stack.pop();
                 String operand1 = stack.pop();
 
-                String result =
-                    "(" + operand1 + ch + operand2 + ")";
+                stack.push("(" + operand1 + ch + operand2 + ")");
 
-                stack.push(result);
+            } else if (Character.isDigit(ch)) {
 
+            throw new IllegalArgumentException(
+                "Each operand is denoted as a single alphabetic character."
+            );
             } else {
 
                 throw new IllegalArgumentException(
                     "Invalid character '" + ch + "'."
-                );
+            );
             }
-        }
-
+        
+        isFirst = false;
+    }
+    
         if (stack.size() != 1) {
 
             throw new IllegalArgumentException(
-                "Invalid postfix expression."
+                "There are too many operands for the number of operators."
             );
         }
 
@@ -366,7 +444,8 @@ public class CS2A_Group6_Lab4 {
 
         while (true) {
 
-            System.out.println();
+            clearScreen();
+            screenHeader("INIX TO PREFIX");
 
             System.out.print("Enter the Infix Expression : ");
             String expression = sc.nextLine();
@@ -494,6 +573,15 @@ public class CS2A_Group6_Lab4 {
         return " ".repeat(padding) + text;
     }
 
+    public static void screenHeader(String title){
+        String border = "════════════════════════════════════";
+        
+        System.out.println(border);
+        System.out.println(centerText(title, border.length()));
+        System.out.print(border);
+        System.out.println();
+    }
+    
     public static void pressAnyKey(Scanner sc) {
 
         System.out.print("Press Enter to continue... ");
