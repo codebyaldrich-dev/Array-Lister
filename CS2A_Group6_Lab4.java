@@ -14,6 +14,18 @@ public class CS2A_Group6_Lab4 {
 
     static Scanner sc = new Scanner(System.in);
 
+    // Pairs a partial infix expression with the precedence of its main operator.
+    // Operands are "atomic" and get the highest value (4).
+    private static class Node {
+        String expr;
+        int prec;
+
+        Node(String expr, int prec) {
+            this.expr = expr;
+            this.prec = prec;
+        }
+    }
+
     public static void main(String[] args) {
 
         while (true) {
@@ -44,7 +56,7 @@ public class CS2A_Group6_Lab4 {
                 System.out.println("\nThank you for using our system!");
                 System.out.println("Program terminated.");
                 break;
-                
+
 
             } else {
 
@@ -82,10 +94,10 @@ public class CS2A_Group6_Lab4 {
 
             clearScreen();
             screenHeader("INFIX TO POSTFIX");
-            
-            
+
+
             System.out.println("Enter the Infix Expression : ");
-            
+
 
             String expression = sc.nextLine();
 
@@ -125,9 +137,9 @@ public class CS2A_Group6_Lab4 {
                 } else {
 
                     System.out.println("Invalid input! Please enter Y or N.");
-                   
-                   
-               
+
+
+
                 }
             }
         }
@@ -167,13 +179,13 @@ public class CS2A_Group6_Lab4 {
                         "Operands may only be preceded by an operator or an open parenthesis."
                     );
                 }
-                
+
                 if (++tokenCount > 15){
-                
+
                     throw new IllegalArgumentException(
                         "The expression may have a maximum of 15 operators and operands."
                 );
-                    
+
                 }
 
                 postfix.append(ch);
@@ -198,7 +210,7 @@ public class CS2A_Group6_Lab4 {
                         "The expression may only begin with an operand or an open parenthesis."
                     );
                 }
-                
+
                 if (expectingOperand) {
 
                     throw new IllegalArgumentException(
@@ -223,14 +235,14 @@ public class CS2A_Group6_Lab4 {
                 expectingOperand = false;
 
             } else if (isOperator(ch)) {
-                
+
                 if (isFirst) {
 
                     throw new IllegalArgumentException(
                         "The expression may only begin with an operand or an open parenthesis."
                     );
                 }
-                
+
                 if (expectingOperand) {
 
                     throw new IllegalArgumentException(
@@ -244,7 +256,7 @@ public class CS2A_Group6_Lab4 {
                         "The expression may have a maximum of 15 operators and operands."
                     );
                 }
-                
+
                 while (!stack.isEmpty() &&
                        stack.peek() != '(' &&
                        precedence(stack.peek()) >= precedence(ch)) {
@@ -260,18 +272,18 @@ public class CS2A_Group6_Lab4 {
                     throw new IllegalArgumentException(
                         "Each operand is denoted as a single alphabetic character."
                 );
-            
+
             } else {
 
                 throw new IllegalArgumentException(
                     "Invalid character '" + ch + "'."
                 );
             }
-            
+
             isFirst = false;
         }
 
-        
+
             if (expectingOperand) {
 
             throw new IllegalArgumentException(
@@ -300,7 +312,7 @@ public class CS2A_Group6_Lab4 {
 
             clearScreen();
             screenHeader("POSTFIX TO INFIX");
-            
+
             System.out.print("Enter the Postfix Expression : ");
             String expression = sc.nextLine();
 
@@ -355,8 +367,8 @@ public class CS2A_Group6_Lab4 {
             );
         }
 
-        Stack<String> stack = new Stack<>();
-        
+        Stack<Node> stack = new Stack<>();
+
         boolean isFirst = true;
         int tokenCount = 0;
 
@@ -370,39 +382,39 @@ public class CS2A_Group6_Lab4 {
             }
 
             if (Character.isLetter(ch)) {
-                
+
                 if (++tokenCount > 15) {
 
+                    throw new IllegalArgumentException(
+                        "The expression may have a maximum of 15 operators and operands."
+                    );
+                }
+
+                // Operand: atomic, never needs parentheses
+                stack.push(new Node(String.valueOf(ch), 4));
+
+            } else if (ch == '(' || ch == ')') {
+
                 throw new IllegalArgumentException(
-                    "The expression may have a maximum of 15 operators and operands."
+                    "Parentheses are not valid in a postfix expression."
                 );
-            }
 
-                stack.push(String.valueOf(ch));
-
-             } else if (ch == '(' || ch == ')') {
-
-            throw new IllegalArgumentException(
-                "Parentheses are not valid in a postfix expression."
-            );
-            
             } else if (isOperator(ch)) {
-                
+
                 if (isFirst) {
 
-                throw new IllegalArgumentException(
-                    "The expression may only begin with an operand."
-                );
+                    throw new IllegalArgumentException(
+                        "The expression may only begin with an operand."
+                    );
                 }
 
                 if (++tokenCount > 15) {
 
-                throw new IllegalArgumentException(
-                    "The expression may have a maximum of 15 operators and operands."
-                );
-                
+                    throw new IllegalArgumentException(
+                        "The expression may have a maximum of 15 operators and operands."
+                    );
                 }
-                
+
                 if (stack.size() < 2) {
 
                     throw new IllegalArgumentException(
@@ -410,26 +422,57 @@ public class CS2A_Group6_Lab4 {
                     );
                 }
 
-                String operand2 = stack.pop();
-                String operand1 = stack.pop();
+                Node right = stack.pop();
+                Node left = stack.pop();
+                int p = precedence(ch);
 
-                stack.push("(" + operand1 + ch + operand2 + ")");
+                String l = left.expr;
+                String r = right.expr;
+
+                if (ch == '^') {
+
+                    // Right-associative: a^b^c = a^(b^c)
+                    if (left.prec <= p) {
+                        l = "(" + l + ")";
+                    }
+
+                    if (right.prec < p) {
+                        r = "(" + r + ")";
+                    }
+
+                } else {
+
+                    // Left-associative
+                    if (left.prec < p) {
+                        l = "(" + l + ")";
+                    }
+
+                    boolean commutative = (ch == '+' || ch == '*');
+
+                    if (right.prec < p ||
+                        (right.prec == p && !commutative)) {
+                        r = "(" + r + ")";
+                    }
+                }
+
+                stack.push(new Node(l + ch + r, p));
 
             } else if (Character.isDigit(ch)) {
 
-            throw new IllegalArgumentException(
-                "Each operand is denoted as a single alphabetic character."
-            );
+                throw new IllegalArgumentException(
+                    "Each operand is denoted as a single alphabetic character."
+                );
+
             } else {
 
                 throw new IllegalArgumentException(
                     "Invalid character '" + ch + "'."
-            );
+                );
             }
-        
-        isFirst = false;
-    }
-    
+
+            isFirst = false;
+        }
+
         if (stack.size() != 1) {
 
             throw new IllegalArgumentException(
@@ -437,7 +480,7 @@ public class CS2A_Group6_Lab4 {
             );
         }
 
-        return stack.pop();
+        return stack.pop().expr;
     }
 
     public static void infixToPrefixMenu() {
@@ -445,7 +488,7 @@ public class CS2A_Group6_Lab4 {
         while (true) {
 
             clearScreen();
-            screenHeader("INIX TO PREFIX");
+            screenHeader("INFIX TO PREFIX");
 
             System.out.print("Enter the Infix Expression : ");
             String expression = sc.nextLine();
@@ -575,13 +618,13 @@ public class CS2A_Group6_Lab4 {
 
     public static void screenHeader(String title){
         String border = "════════════════════════════════════";
-        
+
         System.out.println(border);
         System.out.println(centerText(title, border.length()));
         System.out.print(border);
         System.out.println();
     }
-    
+
     public static void pressAnyKey(Scanner sc) {
 
         System.out.print("Press Enter to continue... ");
@@ -633,7 +676,7 @@ public class CS2A_Group6_Lab4 {
                     clearScreen();
                     mainMenu();
                     System.out.print("Enter your choice : ");
-                    
+
                 }
             }
         }
